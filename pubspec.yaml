@@ -12,8 +12,8 @@ dependencies:
 
   # Game engine
   flame: ^1.18.0
-  flame_tiled: ^1.20.0         # Tiled map loading
-  flame_riverpod: ^5.0.0       # Riverpod integration for Flame
+  flame_tiled: ^1.20.0
+  flame_riverpod: ^5.0.0
 
   # State management
   flutter_riverpod: ^2.5.1
@@ -50,15 +50,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-  assets:
-    - assets/images/
-    - assets/tiles/
-    - assets/audio/sfx/
-    - assets/audio/music/
-    - assets/fonts/
-
-  fonts:
-    - family: VeilbornFont
-      fonts:
-        - asset: assets/fonts/veilborn_regular.ttf
+  # Asset directories will be added in Phase 7 when art assets are created
+  # assets:
+  #   - assets/images/
+  #   - assets/tiles/
+  #   - assets/audio/sfx/
+  #   - assets/audio/music/
+  #   - assets/fonts/
