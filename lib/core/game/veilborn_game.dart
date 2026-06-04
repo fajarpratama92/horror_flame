@@ -1,3 +1,4 @@
+import 'package:flame/camera.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
