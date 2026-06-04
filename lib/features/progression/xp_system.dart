@@ -12,7 +12,7 @@ class XpSystem {
   bool get isMaxLevel => level >= GameConstants.maxLevelPerRun;
 
   double get xpToNextLevel =>
-      GameConstants.xpBaseThreshold * (pow(level, GameConstants.xpLevelExponent));
+      GameConstants.xpBaseThreshold * (_pow(level.toDouble(), GameConstants.xpLevelExponent));
 
   double get xpProgress => currentXp / xpToNextLevel;
 
@@ -37,8 +37,7 @@ class XpSystem {
     return available.take(GameConstants.skillChoiceCount).toList();
   }
 
-  static double pow(double base, double exp) {
-    // Dart's dart:math pow returns num — this wrapper keeps it clean.
+  static double _pow(double base, double exp) {
     var result = 1.0;
     for (var i = 0; i < exp.floor(); i++) result *= base;
     return result;
@@ -114,13 +113,13 @@ class SkillDefinition {
     SkillDefinition(
       id: SkillId.secondWind,
       name: 'Second Wind',
-      description: 'Stamina regeneration rate +50%.',
+      description: 'Stamina regeneration rate +50%%.',
       category: SkillCategory.survival,
     ),
     SkillDefinition(
       id: SkillId.grounded,
       name: 'Grounded',
-      description: 'Sanity drain rate −30% in dark zones.',
+      description: 'Sanity drain rate −30%% in dark zones.',
       category: SkillCategory.survival,
     ),
     SkillDefinition(
@@ -133,13 +132,13 @@ class SkillDefinition {
     SkillDefinition(
       id: SkillId.shadowStep,
       name: 'Shadow Step',
-      description: 'Dash distance +50%.',
+      description: 'Dash distance +50%%.',
       category: SkillCategory.mobility,
     ),
     SkillDefinition(
       id: SkillId.wallrunner,
       name: 'Wallrunner',
-      description: 'Wall-jump height +40%.',
+      description: 'Wall-jump height +40%%.',
       category: SkillCategory.mobility,
     ),
     SkillDefinition(
