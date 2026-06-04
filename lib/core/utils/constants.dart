@@ -28,7 +28,7 @@ class GameConstants {
   // ── Stamina ───────────────────────────────────────────────
   static const double staminaDashCost    = 25.0;
   static const double staminaHeavyCost   = 15.0;
-cstatic const double staminaRangedCost  = 20.0;
+  static const double staminaRangedCost  = 20.0;
   static const double staminaSprintCost  = 10.0; // per second
   static const double staminaRegenRate   = 20.0; // per second
   static const double staminaRegenDelay  = 1.5;  // seconds before regen
