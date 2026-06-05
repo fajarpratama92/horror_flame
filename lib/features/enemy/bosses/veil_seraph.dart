@@ -1,7 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
-import '../enemy/base_enemy_component.dart';
-import '../enemy/wraith.dart';
+import '../base_enemy_component.dart';
+import '../wraith.dart';
 import 'ashen_warden.dart' show BossPhase;
 
 /// Veil Seraph — Chapter 2 Boss.
