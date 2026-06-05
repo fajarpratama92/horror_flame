@@ -37,7 +37,8 @@ class SurvivalNotifier extends Notifier<SurvivalState> {
     );
   }
 
-  void notifyListeners() => ref.notifyListeners();
+  // Trigger a rebuild by reassigning state — Riverpod 2.x pattern
+  void notifyListeners() { state = state; }
 }
 
 final survivalProvider =
