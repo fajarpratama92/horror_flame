@@ -1,7 +1,7 @@
 import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
-import '../enemy/base_enemy_component.dart';
+import '../base_enemy_component.dart';
 
 /// Ashen Warden — Chapter 1 Boss.
 ///
