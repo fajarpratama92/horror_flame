@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../audio/audio_manager.dart';
 import 'character_select_screen.dart';
-import 'settings_screen.dart';
+import 'chapter_select_settings.dart';
 import '../shop/cosmetic_shop_screen.dart';
 
 /// Main menu — the hub players return to between runs.
