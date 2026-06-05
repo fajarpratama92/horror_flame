@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
