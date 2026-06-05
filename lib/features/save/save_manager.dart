@@ -119,4 +119,18 @@ class GameSettings {
     reduceMotion:   json['reduceMotion']   as bool? ?? false,
     colorBlindMode: json['colorBlindMode'] as bool? ?? false,
   );
+
+  GameSettings copyWith({
+    double? masterVolume,
+    double? sfxVolume,
+    double? musicVolume,
+    bool?   reduceMotion,
+    bool?   colorBlindMode,
+  }) => GameSettings(
+    masterVolume:   masterVolume   ?? this.masterVolume,
+    sfxVolume:      sfxVolume      ?? this.sfxVolume,
+    musicVolume:    musicVolume    ?? this.musicVolume,
+    reduceMotion:   reduceMotion   ?? this.reduceMotion,
+    colorBlindMode: colorBlindMode ?? this.colorBlindMode,
+  );
 }
