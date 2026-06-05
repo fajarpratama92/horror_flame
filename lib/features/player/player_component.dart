@@ -2,6 +2,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import '../../core/components/base_entity.dart';
+import '../../core/game/veilborn_game.dart';
 import '../../core/components/physics_body.dart';
 import '../../core/utils/constants.dart';
 import '../survival/survival_controller.dart';
@@ -343,7 +344,7 @@ class PlayerComponent extends BaseEntity
       ]),
     );
     Future.delayed(const Duration(milliseconds: 700), () {
-      gameRef.gameOver();
+      (gameRef as VeilbornGame).gameOver();
     });
   }
 
