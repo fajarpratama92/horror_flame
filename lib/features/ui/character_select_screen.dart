@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../shop/iap_service.dart';
 import '../shop/shop_provider.dart';
 import '../audio/audio_manager.dart';
-import 'chapter_select_screen.dart';
+import 'chapter_select_settings.dart';
 
 /// Character (skin) select screen.
 ///
