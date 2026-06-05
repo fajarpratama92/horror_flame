@@ -60,7 +60,7 @@ class Crawler extends BaseEnemyComponent {
     if (_clingTimer > 0.5) {
       _clingTimer = 0;
       final playerBelow = _isPlayerBelow();
-      if (playerBelow && _ai.distanceToPlayer < attackRange * 2) {
+      if (playerBelow && ai.distanceToPlayer < attackRange * 2) {
         _triggerDropAttack();
       }
     }
@@ -69,7 +69,7 @@ class Crawler extends BaseEnemyComponent {
   bool _isPlayerBelow() {
     // Check if player is directly beneath (within X tolerance)
     // In full impl: query world for player position
-    return _ai.distanceToPlayer < 80.0;
+    return ai.distanceToPlayer < 80.0;
   }
 
   void _triggerDropAttack() {

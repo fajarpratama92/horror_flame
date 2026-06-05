@@ -49,7 +49,7 @@ class Shade extends BaseEnemyComponent {
   void onChaseBehaviour() {
     // Shade doesn't walk — it teleports to maintain optimal range
     velocity.x = 0;
-    if (_teleportCooldown <= 0 && _ai.distanceToPlayer > 100) {
+    if (_teleportCooldown <= 0 && ai.distanceToPlayer > 100) {
       _teleportBehindPlayer();
     }
   }

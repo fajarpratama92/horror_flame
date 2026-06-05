@@ -79,9 +79,9 @@ class VeilSeraph extends BaseEnemyComponent {
     }
 
     // AI update (skip PhysicsBody)
-    _ai.distanceToPlayer = position.distanceTo(
+    ai.distanceToPlayer = position.distanceTo(
         _cachedPlayerPos ?? position);
-    _ai.hpRatio = hpRatio;
+    ai.hpRatio = hpRatio;
   }
 
   Vector2? _cachedPlayerPos;

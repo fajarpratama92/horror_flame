@@ -29,7 +29,7 @@ abstract class BaseEnemyComponent extends BaseEntity
   double get soulEssenceDrop;
 
   // ── AI ────────────────────────────────────────────────────
-  late final AiStateMachine _ai;
+  late final AiStateMachine ai;
 
   // ── Player reference ──────────────────────────────────────
   PlayerComponent? _player;
@@ -44,18 +44,18 @@ abstract class BaseEnemyComponent extends BaseEntity
   Future<void> onLoad() async {
     await super.onLoad();
 
-    _ai = AiStateMachine(
+    ai = AiStateMachine(
       detectionRange: detectionRange,
       attackRange:    attackRange,
     );
 
     // Wire AI behaviour hooks
-    _ai.onPatrol  = _patrolBehaviour;
-    _ai.onChase   = _chaseBehaviour;
-    _ai.onAttack  = _attackBehaviour;
-    _ai.onRetreat = _retreatBehaviour;
-    _ai.onDeath   = _deathBehaviour;
-    add(_ai);
+    ai.onPatrol  = _patrolBehaviour;
+    ai.onChase   = _chaseBehaviour;
+    ai.onAttack  = _attackBehaviour;
+    ai.onRetreat = _retreatBehaviour;
+    ai.onDeath   = _deathBehaviour;
+    add(ai);
 
     // Body hitbox
     add(RectangleHitbox(collisionType: CollisionType.passive));
@@ -68,10 +68,10 @@ abstract class BaseEnemyComponent extends BaseEntity
 
     // Feed AI distance + HP ratio each frame
     if (_player != null) {
-      _ai.distanceToPlayer =
+      ai.distanceToPlayer =
           (position - _player!.position).length;
     }
-    _ai.hpRatio = health / maxHealth;
+    ai.hpRatio = health / maxHealth;
   }
 
   // ── Collision: detect player ──────────────────────────────
@@ -152,7 +152,7 @@ abstract class BaseEnemyComponent extends BaseEntity
   @override
   void onDamageTaken(double amount) {
     _flashHitEffect();
-    if (isDead) _ai.triggerDeath();
+    if (isDead) ai.triggerDeath();
   }
 
   void _flashHitEffect() {
