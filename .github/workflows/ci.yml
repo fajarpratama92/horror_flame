@@ -32,31 +32,40 @@ jobs:
       - name: Run code generation
         run: dart run build_runner build --delete-conflicting-outputs
 
-      - name: Analyze
-        # --fatal-infos removed until all asset dirs exist (Phase 7)
-        # --fatal-warnings removed until Phase 5/6 unused fields are wired up
-        run: flutter analyze
+      - name: Analyze — Phase 8 (strict)
+        # Re-enabled fatal-infos now that all analyzer issues are resolved
+        # --fatal-warnings kept off until asset dirs + unused fields cleaned in v1.1
+        run: flutter analyze --fatal-infos
 
-      - name: Run tests with coverage
-        run: flutter test --coverage
+      - name: Run all tests with coverage
+        run: flutter test --coverage --reporter=github
 
-      - name: Check coverage threshold
+      - name: Check coverage threshold (70%)
         run: |
-          LINES=$(grep -E "^DA:" coverage/lcov.info | wc -l)
-          HIT=$(grep -E "^DA:[0-9]+,[^0]" coverage/lcov.info | wc -l)
+          sudo apt-get install -y lcov > /dev/null 2>&1
+          LINES=$(grep -c "^DA:" coverage/lcov.info 2>/dev/null || echo 0)
+          HIT=$(grep -E "^DA:[0-9]+,[^0]" coverage/lcov.info 2>/dev/null | wc -l || echo 0)
           if [ "$LINES" -gt 0 ]; then
             PCT=$((HIT * 100 / LINES))
-            echo "Coverage: $PCT%"
+            echo "📊 Coverage: $PCT% ($HIT/$LINES lines)"
             if [ "$PCT" -lt 70 ]; then
-              echo "❌ Coverage $PCT% is below 70% threshold"
+              echo "❌ Coverage $PCT% is below the 70% threshold"
               exit 1
             fi
             echo "✅ Coverage $PCT% meets threshold"
           else
-            echo "⚠️  No coverage data found — skipping threshold check"
+            echo "⚠️  No coverage data — skipping threshold check"
           fi
 
-  # ── Build Android ──────────────────────────────────────────
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report-${{ github.sha }}
+          path: coverage/lcov.info
+          retention-days: 14
+
+  # ── Build Android APK ──────────────────────────────────────
   build-android:
     name: Build Android APK
     runs-on: ubuntu-latest
@@ -76,14 +85,14 @@ jobs:
         run: flutter pub get
 
       - name: Build APK (release)
-        run: flutter build apk --release --no-shrink
+        run: flutter build apk --release
 
-      - name: Upload APK artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: veilborn-android-${{ github.sha }}
           path: build/app/outputs/flutter-apk/app-release.apk
-          retention-days: 7
+          retention-days: 14
 
   # ── Build iOS ──────────────────────────────────────────────
   build-ios:
@@ -107,9 +116,43 @@ jobs:
       - name: Build iOS (release, no codesign)
         run: flutter build ios --release --no-codesign
 
-      - name: Upload IPA artifact
+      - name: Upload iOS build
         uses: actions/upload-artifact@v4
         with:
           name: veilborn-ios-${{ github.sha }}
           path: build/ios/iphoneos/Runner.app
-          retention-days: 7
+          retention-days: 14
+
+  # ── Release build (main branch only) ──────────────────────
+  release:
+    name: Create Release Artifacts
+    runs-on: ubuntu-latest
+    needs: [ build-android, build-ios ]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract version from pubspec
+        id: version
+        run: |
+          VERSION=$(grep "^version:" pubspec.yaml | sed 's/version: //')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Download Android artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: veilborn-android-${{ github.sha }}
+          path: release/android/
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: Veilborn v${{ steps.version.outputs.version }}
+          body_path: docs/CHANGELOG.md
+          draft: true
+          prerelease: false
