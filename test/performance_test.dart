@@ -160,7 +160,7 @@ void main() {
       for (int i = 0; i < 1000; i++) {
         final c = SurvivalController();
         c.takeDamage(10);
-        c.healDamage(10); // ensure all paths run
+        c.healDamage(10.0); // ensure all paths run
       }
       // If we get here without OOM or exception, pass
       expect(true, isTrue);
