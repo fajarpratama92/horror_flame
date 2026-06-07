@@ -81,7 +81,7 @@ void main() {
       test('sanity threshold: normal at 100', () {
         SanityThreshold? crossed;
         controller.onSanityThresholdCrossed = (t) => crossed = t;
-        controller.restoreSanity(0); // trigger check with no change
+        controller.restoreSanity(0.0); // trigger check with no change
         expect(crossed, isNull); // no threshold crossed
       });
 

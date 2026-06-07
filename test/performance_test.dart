@@ -159,7 +159,7 @@ void main() {
       // Just verify no errors thrown — GC measured with Dart DevTools
       for (int i = 0; i < 1000; i++) {
         final c = SurvivalController();
-        c.takeDamage(10);
+        c.takeDamage(10.0);
         c.healDamage(10.0); // ensure all paths run
       }
       // If we get here without OOM or exception, pass
