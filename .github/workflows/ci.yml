@@ -38,7 +38,7 @@ jobs:
         run: flutter analyze
 
       - name: Run all tests with coverage
-        run: flutter test --coverage --reporter=github
+        run: flutter test --coverage
 
       - name: Check coverage threshold (70%)
         run: |
