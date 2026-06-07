@@ -12,7 +12,7 @@ void main() {
 
     setUp(() {
       ai = AiStateMachine(
-        detectionRange: 200,
+        detectionRange: 200.0,
         attackRange:    50,
         retreatHpRatio: 0.2,
       );
@@ -23,28 +23,28 @@ void main() {
     });
 
     test('transitions to chase when player in detection range', () {
-      ai.distanceToPlayer = 150;
+      ai.distanceToPlayer = 150.0;
       ai.update(0.016);
       expect(ai.state, equals(EnemyAiState.chase));
     });
 
     test('stays in patrol when player out of range', () {
-      ai.distanceToPlayer = 300;
+      ai.distanceToPlayer = 300.0;
       ai.update(0.016);
       expect(ai.state, equals(EnemyAiState.patrol));
     });
 
     test('transitions to attack when player in attack range during chase', () {
-      ai.distanceToPlayer = 150;
+      ai.distanceToPlayer = 150.0;
       ai.update(0.016); // → chase
 
-      ai.distanceToPlayer = 30;
+      ai.distanceToPlayer = 30.0;
       ai.update(0.016); // → attack
       expect(ai.state, equals(EnemyAiState.attack));
     });
 
     test('transitions to retreat when HP low', () {
-      ai.distanceToPlayer = 150;
+      ai.distanceToPlayer = 150.0;
       ai.update(0.016); // → chase
 
       ai.hpRatio = 0.1; // below retreat threshold
@@ -67,7 +67,7 @@ void main() {
     test('onChase callback is invoked in chase state', () {
       bool called = false;
       ai.onChase = () => called = true;
-      ai.distanceToPlayer = 150;
+      ai.distanceToPlayer = 150.0;
       ai.update(0.016); // → chase
       ai.update(0.016); // execute chase
       expect(called, isTrue);
@@ -75,13 +75,13 @@ void main() {
 
     test('cooldown transitions back to chase', () {
       // Force into attack
-      ai.distanceToPlayer = 30;
+      ai.distanceToPlayer = 30.0;
       ai.update(0.016); // patrol → chase
       ai.update(0.016); // chase → attack
       ai.update(0.016); // attack → cooldown
 
       // Simulate cooldown elapsed
-      ai.distanceToPlayer = 30;
+      ai.distanceToPlayer = 30.0;
       for (int i = 0; i < 60; i++) ai.update(0.016); // ~1 second
       expect(ai.state, equals(EnemyAiState.chase));
     });
