@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'game_over_screen.dart';
 
 /// Chapter Clear screen — shown after defeating a chapter boss.
 ///

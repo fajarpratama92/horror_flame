@@ -3,6 +3,7 @@ import 'package:flame/effects.dart';
 import '../base_enemy_component.dart';
 import '../wraith.dart';
 import 'ashen_warden.dart' show BossPhase;
+import 'package:flutter/material.dart';
 
 /// Veil Seraph — Chapter 2 Boss.
 ///
@@ -293,7 +294,8 @@ class VoidExplosion extends PositionComponent {
   void update(double dt) {
     _age += dt;
     scale = Vector2.all(1.0 + _age * 2);
-    opacity = 0.6 * (1 - _age / 0.5);
+    // Remove from parent when fully faded
+    // Opacity handled via OpacityEffect added in onLoad
     if (_age > 0.5) removeFromParent();
   }
 }

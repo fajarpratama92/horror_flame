@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'base_enemy_component.dart';
+import 'package:flutter/material.dart';
 
 /// Husk — Tier 2 tank enemy.
 ///
@@ -144,6 +145,7 @@ class Husk extends BaseEnemyComponent {
 
 /// Visual indicator for the slam AoE zone.
 class SlamAoeIndicator extends PositionComponent {
+  final Paint paint = Paint()..color = const Color(0xFFF5A623);
   SlamAoeIndicator({required super.position, required this.radius})
       : super(size: Vector2(radius, 12));
 
@@ -167,6 +169,8 @@ class SlamAoeIndicator extends PositionComponent {
   void update(double dt) {
     _age += dt;
     if (_age >= 0.4) removeFromParent();
-    opacity = 0.5 * (1 - _age / 0.4);
+    // opacity fades via paint color
+    final alpha = (0.5 * (1 - _age / 0.4) * 255).clamp(0, 255).toInt();
+    paint.color = paint.color.withAlpha(alpha);
   }
 }
