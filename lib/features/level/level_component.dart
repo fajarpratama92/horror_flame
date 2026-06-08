@@ -4,6 +4,7 @@ import 'package:flame_tiled/flame_tiled.dart';
 import '../../core/components/physics_body.dart';
 import '../enemy/wanderer.dart';
 import '../enemy/wraith.dart';
+import 'package:flutter/material.dart';
 
 /// Procedurally assembles a chapter run from hand-crafted Tiled room chunks.
 ///
@@ -105,8 +106,11 @@ class RoomChunk extends Component with HasGameRef {
   final String tmxFile;
   final double xOffset;
 
-  double get chunkWidth => _map?.tileMap.map.width  *
-      (_map?.tileMap.map.tileWidth  ?? 16).toDouble() ?? 480.0;
+  double get chunkWidth {
+    final m = _map;
+    if (m == null) return 480.0;
+    return (m.tileMap.map.width * m.tileMap.map.tileWidth).toDouble();
+  }
 
   TiledComponent? _map;
 
