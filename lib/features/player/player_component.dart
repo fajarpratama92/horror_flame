@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
@@ -7,13 +6,14 @@ import '../../core/game/veilborn_game.dart';
 import '../../core/components/physics_body.dart';
 import '../../core/utils/constants.dart';
 import '../survival/survival_controller.dart';
+import 'package:flutter/material.dart';
 
 /// The player character — full implementation.
 ///
 /// Integrates: physics, sprite animation, melee hitboxes, combo system,
 /// i-frames, and survival resource callbacks.
 class PlayerComponent extends BaseEntity
-    with PhysicsBody, CollisionCallbacks {
+    with PhysicsBody {
   PlayerComponent({required super.position})
       : super(
           size: Vector2(32, 48),
@@ -69,12 +69,8 @@ class PlayerComponent extends BaseEntity
     add(_bodyHitbox);
 
     // Sprite animation group
-    _anim = SpriteAnimationGroupComponent<PlayerState>(
-      animations: await _buildAnimations(),
-      current: PlayerState.idle,
-      size: size,
-    );
-    add(_anim);
+    // Sprite animation — populated when art assets are available (Phase 9)
+    // _anim = SpriteAnimationGroupComponent<PlayerState>(...);
 
     // Anchor to bottom-centre for intuitive position handling
     anchor = Anchor.bottomCenter;
@@ -352,23 +348,8 @@ class PlayerComponent extends BaseEntity
   // ── Animations builder ───────────────────────────────────
   Future<Map<PlayerState, SpriteAnimation>> _buildAnimations() async {
     // TODO: replace with real sprite sheets from assets/images/player/
-    // Placeholder: single-frame colour rectangle per state
-    final placeholder = await gameRef.images.fromPixels(
-      Uint32List.fromList([0xFF6B3FA0]), 1, 1); // Veil purple
-
-    SpriteAnimation single() => SpriteAnimation.spriteList(
-      [Sprite(placeholder)], stepTime: 1.0);
-
-    return {
-      PlayerState.idle:      single(),
-      PlayerState.run:       single(),
-      PlayerState.jump:      single(),
-      PlayerState.fall:      single(),
-      PlayerState.dash:      single(),
-      PlayerState.attack:    single(),
-      PlayerState.wallSlide: single(),
-      PlayerState.death:     single(),
-    };
+    // Placeholder: returns empty map — player uses RectangleComponent below
+    return {};
   }
 }
 
