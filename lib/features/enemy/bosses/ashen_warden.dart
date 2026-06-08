@@ -1,4 +1,3 @@
-import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import '../base_enemy_component.dart';
@@ -124,7 +123,6 @@ class AshenWarden extends BaseEnemyComponent {
     for (int i = 0; i < 3; i++) {
       Future.delayed(Duration(milliseconds: 200 * i), () {
         if (isDead) return;
-        final dmg = _phase == BossPhase.phase2 ? attackDamage * 1.2 : attackDamage;
         // Deal damage to player in melee range (handled by collision)
         velocity.x = facingRight ? 60.0 : -60.0;
         Future.delayed(const Duration(milliseconds: 100), () => velocity.x = 0);
