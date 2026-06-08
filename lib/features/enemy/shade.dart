@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'base_enemy_component.dart';
 import 'package:flutter/material.dart';
+import 'package:flame/collisions.dart';
 
 /// Shade — Tier 2 elite enemy.
 ///
