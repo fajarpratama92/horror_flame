@@ -294,7 +294,8 @@ class VoidExplosion extends PositionComponent {
   void update(double dt) {
     _age += dt;
     scale = Vector2.all(1.0 + _age * 2);
-    opacity = 0.6 * (1 - _age / 0.5);
+    // Remove from parent when fully faded
+    // Opacity handled via OpacityEffect added in onLoad
     if (_age > 0.5) removeFromParent();
   }
 }
