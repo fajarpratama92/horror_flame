@@ -99,7 +99,7 @@ class AudioManager {
   double get _effectiveSfxVolume   => _masterVolume * _sfxVolume;
 
   void _applyBgmVolume() {
-    FlameAudio.bgm.audioPlayer?.setVolume(_effectiveMusicVolume); // ignore: invalid_null_aware_operator
+    FlameAudio.bgm.audioPlayer!.setVolume(_effectiveMusicVolume);
   }
 
   // ── BGM ───────────────────────────────────────────────────
@@ -152,7 +152,7 @@ class AudioManager {
         3 => _effectiveMusicVolume * 0.6,
         _ => _effectiveMusicVolume,
       };
-      FlameAudio.bgm.audioPlayer?.setVolume(vol); // ignore: invalid_null_aware_operator
+      FlameAudio.bgm.audioPlayer!.setVolume(vol);
       return;
     }
 
@@ -165,16 +165,16 @@ class AudioManager {
       _ => (_effectiveMusicVolume,        1.00),
     };
 
-    FlameAudio.bgm.audioPlayer?.setVolume(vol); // ignore: invalid_null_aware_operator
-    FlameAudio.bgm.audioPlayer?.setPlaybackRate(rate); // ignore: invalid_null_aware_operator
+    FlameAudio.bgm.audioPlayer!.setVolume(vol);
+    FlameAudio.bgm.audioPlayer!.setPlaybackRate(rate);
     debugPrint('[Audio] Sanity fx: vol=$vol rate=$rate');
   }
 
   /// Restore normal BGM after sanity recovers
   void restoreBgm() {
     if (!_initialized) return;
-    FlameAudio.bgm.audioPlayer?.setVolume(_effectiveMusicVolume); // ignore: invalid_null_aware_operator
-    FlameAudio.bgm.audioPlayer?.setPlaybackRate(1.0);
+    FlameAudio.bgm.audioPlayer!.setVolume(_effectiveMusicVolume);
+    FlameAudio.bgm.audioPlayer!.setPlaybackRate(1.0);
   }
 
   // ── App lifecycle ─────────────────────────────────────────

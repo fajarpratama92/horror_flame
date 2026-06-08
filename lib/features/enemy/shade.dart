@@ -24,7 +24,6 @@ class Shade extends BaseEnemyComponent {
   bool _isTeleporting = false;
   double _teleportCooldown = 0.0;
   static const double _teleportCooldownTime = 2.5;
-  static const double _shadowBoltSpeed = 280.0;
 
   @override
   Future<void> onLoad() async {

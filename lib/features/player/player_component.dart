@@ -6,7 +6,6 @@ import '../../core/game/veilborn_game.dart';
 import '../../core/components/physics_body.dart';
 import '../../core/utils/constants.dart';
 import '../survival/survival_controller.dart';
-import 'package:flutter/material.dart';
 
 /// The player character — full implementation.
 ///
@@ -26,7 +25,6 @@ class PlayerComponent extends BaseEntity
   RectangleHitbox? _attackHitbox;
 
   // ── Animation ─────────────────────────────────────────────
-  late final SpriteAnimationGroupComponent<PlayerState> _anim;
   PlayerState _state = PlayerState.idle;
 
   // ── Movement state ────────────────────────────────────────
@@ -69,8 +67,7 @@ class PlayerComponent extends BaseEntity
     add(_bodyHitbox);
 
     // Sprite animation group
-    // Sprite animation — populated when art assets are available (Phase 9)
-    // _anim = SpriteAnimationGroupComponent<PlayerState>(...);
+    // Sprite animation: to be added in Phase 9 when art assets are available
 
     // Anchor to bottom-centre for intuitive position handling
     anchor = Anchor.bottomCenter;
@@ -118,7 +115,6 @@ class PlayerComponent extends BaseEntity
     final next = _resolveState();
     if (next != _state) {
       _state = next;
-      _anim.current = next;
     }
   }
 
@@ -345,12 +341,7 @@ class PlayerComponent extends BaseEntity
     });
   }
 
-  // ── Animations builder ───────────────────────────────────
-  Future<Map<PlayerState, SpriteAnimation>> _buildAnimations() async {
-    // TODO: replace with real sprite sheets from assets/images/player/
-    // Placeholder: returns empty map — player uses RectangleComponent below
-    return {};
-  }
+  // TODO: Add _buildAnimations() when sprite sheets are available
 }
 
 // ── Player state enum ─────────────────────────────────────
