@@ -2,6 +2,7 @@ import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import '../base_enemy_component.dart';
+import 'package:flutter/material.dart';
 
 /// Ashen Warden — Chapter 1 Boss.
 ///
