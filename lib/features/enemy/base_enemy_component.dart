@@ -12,7 +12,7 @@ import 'ai_state_machine.dart';
 /// - [enemyName], [maxHp], [moveSpeed], [attackDamage], [sanityDrainOnHit]
 /// - [onPatrolBehaviour], [onChaseBehaviour], [onAttackBehaviour]
 abstract class BaseEnemyComponent extends BaseEntity
-    with PhysicsBody, CollisionCallbacks {
+    with PhysicsBody {
   BaseEnemyComponent({
     required super.position,
     required super.size,
