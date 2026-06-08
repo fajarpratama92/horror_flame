@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:horror_flame/core/game/veilborn_game.dart';
 import 'package:horror_flame/features/survival/survival_controller.dart';
 import 'package:horror_flame/features/progression/xp_system.dart';
-import 'package:horror_flame/features/progression/progression_provider.dart';
 import 'package:horror_flame/features/save/save_manager.dart';
 import 'package:horror_flame/features/shop/iap_service.dart';
 import 'package:horror_flame/features/shop/shop_provider.dart';
