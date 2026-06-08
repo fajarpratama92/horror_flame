@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'base_enemy_component.dart';
+import 'package:flutter/material.dart';
 
 /// Crawler — Tier 2 common enemy.
 ///
