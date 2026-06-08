@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../progression/xp_system.dart';
-import '../progression/progression_provider.dart';
 
 /// Skill select screen — shown after every level up.
 ///
