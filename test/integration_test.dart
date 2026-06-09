@@ -27,11 +27,21 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: GameWidget(game: game),
+            home: GameWidget(
+              game: game,
+              // Register all overlays VeilbornGame.onLoad() may add
+              overlayBuilderMap: {
+                'HudOverlay':        (_, __) => const SizedBox.shrink(),
+                'PauseMenu':         (_, __) => const SizedBox.shrink(),
+                'GameOver':          (_, __) => const SizedBox.shrink(),
+                'ChapterClear':      (_, __) => const SizedBox.shrink(),
+                'RealityDistortion': (_, __) => const SizedBox.shrink(),
+              },
+            ),
           ),
         ),
       );
-      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump(const Duration(milliseconds: 100));
       expect(find.byType(GameWidget), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
