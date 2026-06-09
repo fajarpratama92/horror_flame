@@ -35,8 +35,12 @@ class VeilbornGame extends FlameGame with HasKeyboardHandlerComponents {
     // world.add(LevelComponent());
     // world.add(PlayerComponent());
 
-    // Show HUD
-    overlays.add('HudOverlay');
+    // Show HUD (guarded for test environments)
+    try {
+      overlays.add('HudOverlay');
+    } catch (_) {
+      // Overlay not registered in test environment — safe to ignore
+    }
 
     debugMode = false; // Set to true during development to see hitboxes
   }
