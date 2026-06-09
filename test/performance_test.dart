@@ -118,7 +118,14 @@ void main() {
       final game = VeilbornGame();
       await tester.pumpWidget(
         MaterialApp(
-          home: GameWidget(game: game),
+          home: GameWidget(
+            game: game,
+            overlayBuilderMap: {
+              'HudOverlay':   (_, __) => const SizedBox.shrink(),
+              'PauseMenu':    (_, __) => const SizedBox.shrink(),
+              'GameOver':     (_, __) => const SizedBox.shrink(),
+            },
+          ),
         ),
       );
       await tester.pump(const Duration(milliseconds: 100));
@@ -134,7 +141,16 @@ void main() {
     testWidgets('60 pump() cycles at 16ms complete without stutter', (tester) async {
       final game = VeilbornGame();
       await tester.pumpWidget(
-        MaterialApp(home: GameWidget(game: game)),
+        MaterialApp(
+          home: GameWidget(
+            game: game,
+            overlayBuilderMap: {
+              'HudOverlay':   (_, __) => const SizedBox.shrink(),
+              'PauseMenu':    (_, __) => const SizedBox.shrink(),
+              'GameOver':     (_, __) => const SizedBox.shrink(),
+            },
+          ),
+        ),
       );
 
       final stopwatch = Stopwatch()..start();
