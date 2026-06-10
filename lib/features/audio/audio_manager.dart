@@ -99,6 +99,7 @@ class AudioManager {
   double get _effectiveSfxVolume   => _masterVolume * _sfxVolume;
 
   void _applyBgmVolume() {
+    if (!_initialized) return; // not initialised yet — safe no-op
     FlameAudio.bgm.audioPlayer!.setVolume(_effectiveMusicVolume);
   }
 
@@ -165,6 +166,7 @@ class AudioManager {
       _ => (_effectiveMusicVolume,        1.00),
     };
 
+    if (!_initialized) return;
     FlameAudio.bgm.audioPlayer!.setVolume(vol);
     FlameAudio.bgm.audioPlayer!.setPlaybackRate(rate);
     debugPrint('[Audio] Sanity fx: vol=$vol rate=$rate');
