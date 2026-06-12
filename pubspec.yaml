@@ -1,7 +1,7 @@
 name: horror_flame
 description: Veilborn — A dark fantasy action RPG platformer survival game.
 publish_to: none
-version: 0.1.0+1
+version: 1.0.0+1
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -50,10 +50,39 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  # Asset directories will be added in Phase 7 when art assets are created
-  # assets:
-  #   - assets/images/
-  #   - assets/tiles/
-  #   - assets/audio/sfx/
-  #   - assets/audio/music/
-  #   - assets/fonts/
+
+  # Asset pipeline — Phase 9
+  # Directories exist with .gitkeep placeholders.
+  # Replace placeholders with real assets when art/audio are ready.
+  assets:
+    # Player sprite sheets
+    - assets/images/player/
+
+    # Enemy sprite sheets
+    - assets/images/enemies/
+    - assets/images/enemies/bosses/
+
+    # UI / HUD elements
+    - assets/images/ui/
+
+    # Parallax background layers
+    - assets/images/backgrounds/
+
+    # Tiled map files (.tmx) and tilesets (.tsx)
+    - assets/tiles/chapter1/
+    - assets/tiles/chapter2/
+
+    # Sound effects
+    - assets/audio/sfx/
+
+    # Background music
+    - assets/audio/music/
+
+  # Custom fonts
+  fonts:
+    - family: VeilbornDisplay
+      fonts:
+        - asset: assets/fonts/VeilbornDisplay.ttf
+    - family: VeilbornBody
+      fonts:
+        - asset: assets/fonts/VeilbornBody.ttf
