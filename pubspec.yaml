@@ -78,11 +78,14 @@ flutter:
     # Background music
     - assets/audio/music/
 
-  # Custom fonts
-  fonts:
-    - family: VeilbornDisplay
-      fonts:
-        - asset: assets/fonts/VeilbornDisplay.ttf
-    - family: VeilbornBody
-      fonts:
-        - asset: assets/fonts/VeilbornBody.ttf
+  # Custom fonts — commented out until real .ttf files are provided.
+  # Drop VeilbornDisplay.ttf and VeilbornBody.ttf into assets/fonts/
+  # then uncomment this block. See docs/ASSET_GUIDE.md for specs.
+  #
+  # fonts:
+  #   - family: VeilbornDisplay
+  #     fonts:
+  #       - asset: assets/fonts/VeilbornDisplay.ttf
+  #   - family: VeilbornBody
+  #     fonts:
+  #       - asset: assets/fonts/VeilbornBody.ttf
