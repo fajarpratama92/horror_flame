@@ -100,7 +100,7 @@ class AudioManager {
 
   void _applyBgmVolume() {
     if (!_initialized) return; // not initialised yet — safe no-op
-    FlameAudio.bgm.audioPlayer!.setVolume(_effectiveMusicVolume);
+    FlameAudio.bgm.audioPlayer.setVolume(_effectiveMusicVolume);
   }
 
   // ── BGM ───────────────────────────────────────────────────
@@ -153,7 +153,7 @@ class AudioManager {
         3 => _effectiveMusicVolume * 0.6,
         _ => _effectiveMusicVolume,
       };
-      FlameAudio.bgm.audioPlayer!.setVolume(vol);
+      FlameAudio.bgm.audioPlayer.setVolume(vol);
       return;
     }
 
@@ -167,16 +167,16 @@ class AudioManager {
     };
 
     if (!_initialized) return;
-    FlameAudio.bgm.audioPlayer!.setVolume(vol);
-    FlameAudio.bgm.audioPlayer!.setPlaybackRate(rate);
+    FlameAudio.bgm.audioPlayer.setVolume(vol);
+    FlameAudio.bgm.audioPlayer.setPlaybackRate(rate);
     debugPrint('[Audio] Sanity fx: vol=$vol rate=$rate');
   }
 
   /// Restore normal BGM after sanity recovers
   void restoreBgm() {
     if (!_initialized) return;
-    FlameAudio.bgm.audioPlayer!.setVolume(_effectiveMusicVolume);
-    FlameAudio.bgm.audioPlayer!.setPlaybackRate(1.0);
+    FlameAudio.bgm.audioPlayer.setVolume(_effectiveMusicVolume);
+    FlameAudio.bgm.audioPlayer.setPlaybackRate(1.0);
   }
 
   // ── App lifecycle ─────────────────────────────────────────

@@ -1,70 +1,11 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'skin_catalog.dart';
 
 /// All purchasable product IDs — must match App Store / Google Play exactly.
-class VeilbornProducts {
-  VeilbornProducts._();
-
-  static const String crimsonSeraph = 'com.veilborn.skin.crimson_seraph';
-  static const String goldenWarden  = 'com.veilborn.skin.golden_warden';
-
-  static const Set<String> all = {crimsonSeraph, goldenWarden};
-
-  /// Price display labels (fallback when store prices unavailable)
-  static const Map<String, String> fallbackPrices = {
-    crimsonSeraph: r'$1.99',
-    goldenWarden:  r'$2.99',
-  };
-}
 
 /// Skin catalogue — all 4 skins with unlock logic.
-class SkinDefinition {
-  const SkinDefinition({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.unlockType,
-    this.productId,
-  });
-
-  final String     id;
-  final String     name;
-  final String     description;
-  final UnlockType unlockType;
-  final String?    productId; // null for free/achievement skins
-
-  static const List<SkinDefinition> all = [
-    SkinDefinition(
-      id:          'ashen_knight',
-      name:        'Ashen Knight',
-      description: 'Worn plate armour forged in the old kingdom. Battle-scarred, steadfast.',
-      unlockType:  UnlockType.free,
-    ),
-    SkinDefinition(
-      id:          'void_stalker',
-      name:        'Void Stalker',
-      description: 'A shadow that learned to walk. Cloak woven from the Veil itself.',
-      unlockType:  UnlockType.achievement,
-    ),
-    SkinDefinition(
-      id:          'crimson_seraph',
-      name:        'Crimson Seraph',
-      description: 'Fallen from grace. Horned helm, war scythe — a demon\'s elegance.',
-      unlockType:  UnlockType.iap,
-      productId:   VeilbornProducts.crimsonSeraph,
-    ),
-    SkinDefinition(
-      id:          'golden_warden',
-      name:        'Golden Warden',
-      description: 'Guardian of a dead age. Gold-trimmed armour, rune-etched hammer.',
-      unlockType:  UnlockType.iap,
-      productId:   VeilbornProducts.goldenWarden,
-    ),
-  ];
-}
-
-enum UnlockType { free, achievement, iap }
 
 /// Wraps Flutter's in_app_purchase plugin.
 ///

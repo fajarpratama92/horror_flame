@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:horror_flame/features/audio/audio_manager.dart';
+import 'package:horror_flame/features/shop/skin_catalog.dart';
 
 /// Phase 7 tests — pure data-layer tests only.
 ///
