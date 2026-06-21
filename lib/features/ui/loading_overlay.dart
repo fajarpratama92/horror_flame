@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flame/game.dart';
 import '../../core/game/veilborn_game.dart';
 
 /// Loading overlay — shown while [AssetManager] preloads sprites/audio.
