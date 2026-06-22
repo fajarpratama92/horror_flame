@@ -42,7 +42,7 @@ class SkinDefinition {
     SkinDefinition(
       id:          'crimson_seraph',
       name:        'Crimson Seraph',
-      description: 'A fallen guardian's colours. Deep crimson with ivory accents.',
+      description: '''A fallen guardian's colours. Deep crimson with ivory accents.''',
       unlockType:  UnlockType.iap,
       productId:   'com.veilborn.skin_crimson_seraph',
     ),
