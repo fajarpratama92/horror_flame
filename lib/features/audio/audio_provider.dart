@@ -9,7 +9,7 @@ class AudioNotifier extends Notifier<AudioState> {
   @override
   AudioState build() {
     _save = SaveManager();
-    // SaveManager already initialized by ShopProvider — safe to use
+    // SaveManager initialized by SplashScreen during app boot — safe to use
     final settings = _save.settings;
     return AudioState(
       masterVolume: settings.masterVolume,

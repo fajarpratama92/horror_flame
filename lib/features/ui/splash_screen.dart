@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/assets/asset_manifest.dart';
+import '../../core/assets/asset_manager.dart';
 import '../shop/iap_service.dart';
 import '../audio/audio_manager.dart';
 import '../save/save_manager.dart';
@@ -97,8 +99,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       ),
     ]);
 
+    // Preload Main Menu assets (like candle flame)
+    await AssetManager.instance.preloadMainMenu();
+
     // Start main menu BGM
-    await AudioManager.instance.playBgm(Bgm.mainMenu);
+    await AudioManager.instance.playBgm(BgmAssets.mainMenu);
   }
 
   @override

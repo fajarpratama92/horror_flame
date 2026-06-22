@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/assets/asset_manifest.dart';
 import '../audio/audio_manager.dart';
 import '../audio/audio_provider.dart';
 import '../save/save_manager.dart';
@@ -50,7 +51,7 @@ class _ChapterSelectScreenState extends State<ChapterSelectScreen>
   }
 
   void _startChapter(int chapter) {
-    AudioManager.instance.playSfx(Sfx.uiSelect);
+    AudioManager.instance.playSfx(SfxAssets.uiSelect);
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (_) => _GameWrapper(chapter: chapter),
@@ -69,7 +70,7 @@ class _ChapterSelectScreenState extends State<ChapterSelectScreen>
           icon: const Icon(Icons.arrow_back_ios,
               color: Color(0xFF9A9AB0), size: 18),
           onPressed: () {
-            AudioManager.instance.playSfx(Sfx.uiBack);
+            AudioManager.instance.playSfx(SfxAssets.uiBack);
             Navigator.of(context).pop();
           },
         ),
@@ -237,13 +238,16 @@ class _GameWrapperState extends State<_GameWrapper> {
   @override
   void initState() {
     super.initState();
-    _game = VeilbornGame();
+    _game = VeilbornGame(chapter: widget.chapter);
   }
 
   @override
   Widget build(BuildContext context) {
     return GameWidget(
       game: _game,
+      loadingBuilder: (_) => const Center(
+        child: CircularProgressIndicator(color: Color(0xFF6B3FA0)),
+      ),
       overlayBuilderMap: {
         'HudOverlay':        (_, __) => const SizedBox.shrink(),
         'GameOver':          (_, __) => const SizedBox.shrink(),
@@ -274,7 +278,7 @@ class SettingsScreen extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_ios,
               color: Color(0xFF9A9AB0), size: 18),
           onPressed: () {
-            AudioManager.instance.playSfx(Sfx.uiBack);
+            AudioManager.instance.playSfx(SfxAssets.uiBack);
             Navigator.of(context).pop();
           },
         ),

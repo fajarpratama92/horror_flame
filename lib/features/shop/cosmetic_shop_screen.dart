@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:horror_flame/features/shop/skin_catalog.dart';
+import '../../core/assets/asset_manifest.dart';
+import '../audio/audio_manager.dart';
 import 'iap_service.dart';
 import 'shop_provider.dart';
 
@@ -32,7 +34,10 @@ class CosmeticShopScreen extends ConsumerWidget {
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Color(0xFF9A9AB0), size: 18),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            AudioManager.instance.playSfx(SfxAssets.uiBack);
+            Navigator.of(context).pop();
+          },
         ),
         actions: [
           TextButton(
@@ -69,9 +74,14 @@ class CosmeticShopScreen extends ConsumerWidget {
                   return _SkinCard(
                     skin:        skin,
                     shop:        shop,
-                    onEquip:     () => ref.read(shopProvider.notifier).equipSkin(skin.id),
-                    onBuy:       () => ref.read(shopProvider.notifier)
-                                          .purchaseSkin(skin.productId!),
+                    onEquip:     () {
+                      AudioManager.instance.playSfx(SfxAssets.uiSelect);
+                      ref.read(shopProvider.notifier).equipSkin(skin.id);
+                    },
+                    onBuy:       () {
+                      AudioManager.instance.playSfx(SfxAssets.uiSelect);
+                      ref.read(shopProvider.notifier).purchaseSkin(skin.productId!);
+                    },
                     isBuying:    shop.purchasePending,
                   );
                 },

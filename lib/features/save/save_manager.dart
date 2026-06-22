@@ -12,6 +12,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// NOTE: Run-in-progress state is kept in memory only.
 /// SharedPreferences is for persistent meta-progression only.
 class SaveManager {
+  SaveManager._internal();
+  static final SaveManager _instance = SaveManager._internal();
+  factory SaveManager() => _instance;
+
+  static SaveManager get instance => _instance;
+
   static const String _keyUnlockedSkins   = 'unlocked_skins';
   static const String _keyHighestChapter  = 'highest_chapter';
   static const String _keyTotalRuns       = 'total_runs';
@@ -19,14 +25,22 @@ class SaveManager {
 
   late SharedPreferences _prefs;
   bool _initialized = false;
+  Future<void>? _initFuture;
 
+  /// Initializes SharedPreferences. Safe to call multiple times; 
+  /// subsequent calls will wait for the first initialization to complete.
   Future<void> init() async {
-    _prefs = await SharedPreferences.getInstance();
-    _initialized = true;
+    if (_initialized) return;
+    _initFuture ??= SharedPreferences.getInstance().then((p) {
+      _prefs = p;
+      _initialized = true;
+    });
+    await _initFuture;
   }
 
   void _assertInit() {
-    assert(_initialized, 'SaveManager.init() must be called before use.');
+    assert(_initialized, 'SaveManager.init() must be called before use. '
+        'Ensure SplashScreen has completed initialization.');
   }
 
   // ── Cosmetics ─────────────────────────────────────────────

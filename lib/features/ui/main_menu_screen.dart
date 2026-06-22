@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import '../../core/assets/asset_manifest.dart';
 import '../audio/audio_manager.dart';
 import 'character_select_screen.dart';
 import 'chapter_select_settings.dart';
@@ -52,7 +53,7 @@ class _MainMenuScreenState extends State<MainMenuScreen>
   }
 
   void _onPlay() {
-    AudioManager.instance.playSfx(Sfx.uiSelect);
+    AudioManager.instance.playSfx(SfxAssets.uiSelect);
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder:     (_, __, ___) => const CharacterSelectScreen(),
@@ -64,14 +65,14 @@ class _MainMenuScreenState extends State<MainMenuScreen>
   }
 
   void _onShop() {
-    AudioManager.instance.playSfx(Sfx.uiSelect);
+    AudioManager.instance.playSfx(SfxAssets.uiSelect);
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => const CosmeticShopScreen()),
     );
   }
 
   void _onSettings() {
-    AudioManager.instance.playSfx(Sfx.uiSelect);
+    AudioManager.instance.playSfx(SfxAssets.uiSelect);
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => const SettingsScreen()),
     );

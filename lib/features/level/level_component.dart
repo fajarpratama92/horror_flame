@@ -1,21 +1,13 @@
 import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:flutter/material.dart';
+import '../../core/assets/asset_manifest.dart';
 import '../../core/components/physics_body.dart';
 import '../enemy/wanderer.dart';
 import '../enemy/wraith.dart';
-import 'package:flutter/material.dart';
 
 /// Procedurally assembles a chapter run from hand-crafted Tiled room chunks.
-///
-/// Strategy:
-/// - Pool of [chunksPerChapter] pre-built .tmx files per chapter
-/// - Shuffle pool each run (seeded for reproducibility)
-/// - First chunk: always mild opener (index 0)
-/// - Last chunk: always gauntlet (index -1)
-/// - Middle chunks: randomly ordered from the pool
-///
-/// Each chunk is stacked horizontally — the camera scrolls right.
 class LevelComponent extends Component with HasGameRef {
   LevelComponent({
     required this.chapter,
@@ -35,7 +27,9 @@ class LevelComponent extends Component with HasGameRef {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    debugPrint('[Level] Loading chapter $chapter (seed: $seed)…');
     await _assembleChunks();
+    debugPrint('[Level] Chapter $chapter assembly complete');
   }
 
   Future<void> _assembleChunks() async {
@@ -69,32 +63,30 @@ class LevelComponent extends Component with HasGameRef {
   }
 
   List<String> _chunkFilesFor(int chap) {
-    // TMX file names by chapter
-    // TODO: replace with real files under assets/tiles/
+    // We use the paths defined in TileAssets manifest
     return switch (chap) {
       1 => [
-        'ch1_opener.tmx',
-        'ch1_combat_a.tmx',
-        'ch1_platform_b.tmx',
-        'ch1_hybrid_c.tmx',
-        'ch1_dark_zone.tmx',
-        'ch1_safe_room.tmx',
-        'ch1_gauntlet.tmx',
+        TileAssets.ch1Opener,
+        TileAssets.ch1CombatA,
+        TileAssets.ch1PlatformB,
+        TileAssets.ch1HybridC,
+        TileAssets.ch1DarkZone,
+        TileAssets.ch1SafeRoom,
+        TileAssets.ch1Gauntlet,
       ],
       2 => [
-        'ch2_opener.tmx',
-        'ch2_combat_a.tmx',
-        'ch2_platform_b.tmx',
-        'ch2_veil_rift.tmx',
-        'ch2_dark_zone.tmx',
-        'ch2_safe_room.tmx',
-        'ch2_gauntlet.tmx',
+        TileAssets.ch2Opener,
+        TileAssets.ch2CombatA,
+        TileAssets.ch2PlatformB,
+        TileAssets.ch2VeilRift,
+        TileAssets.ch2DarkZone,
+        TileAssets.ch2SafeRoom,
+        TileAssets.ch2Gauntlet,
       ],
-      _ => ['ch1_opener.tmx'],
+      _ => [TileAssets.ch1Opener],
     };
   }
 
-  /// Camera follow — returns the world X boundary of the current chunk
   double get totalWidth =>
       _chunks.fold(0, (sum, c) => sum + c.chunkWidth);
 }
@@ -114,60 +106,60 @@ class RoomChunk extends Component with HasGameRef {
 
   TiledComponent? _map;
 
-  bool get isSafeRoom  => tmxFile.contains('safe_room');
-  bool get isDarkZone  => tmxFile.contains('dark_zone') ||
-                          tmxFile.contains('veil_rift');
-
   @override
   Future<void> onLoad() async {
+    debugPrint('[Level]   loading chunk: $tmxFile…');
     try {
       _map = await TiledComponent.load(
         tmxFile,
-        Vector2.all(16), // tile size 16×16
+        Vector2.all(16),
       );
-      _map!.x = xOffset;
+      _map!.position = Vector2(xOffset, 0);
       add(_map!);
       _spawnCollidersFrom(_map!);
       _spawnEnemiesFrom(_map!);
-    } catch (_) {
-      // Placeholder while real TMX files are not yet present
+      debugPrint('[Level]   ✅ chunk ready: $tmxFile');
+    } catch (e) {
+      debugPrint('[Level]   ⚠️  chunk failed: $tmxFile — using placeholder ($e)');
       _addPlaceholderRoom();
     }
   }
 
   void _spawnCollidersFrom(TiledComponent map) {
-    // Read 'Collision' object layer from Tiled map
-    final objectLayer = map.tileMap.getLayer<ObjectGroup>('Collision');
-    if (objectLayer == null) return;
+    try {
+      final objectLayer = map.tileMap.getLayer<ObjectGroup>('Collision');
+      if (objectLayer == null) return;
 
-    for (final obj in objectLayer.objects) {
-      add(
-        PositionComponent(
-          position: Vector2(xOffset + obj.x, obj.y),
-          size: Vector2(obj.width, obj.height),
-          children: [PlatformHitbox(size: Vector2(obj.width, obj.height))],
-        ),
-      );
-    }
+      for (final obj in objectLayer.objects) {
+        add(
+          PositionComponent(
+            position: Vector2(xOffset + obj.x, obj.y),
+            size: Vector2(obj.width, obj.height),
+            children: [PlatformHitbox(size: Vector2(obj.width, obj.height))],
+          ),
+        );
+      }
+    } catch (_) {}
   }
 
   void _spawnEnemiesFrom(TiledComponent map) {
-    final spawnLayer = map.tileMap.getLayer<ObjectGroup>('Enemies');
-    if (spawnLayer == null) return;
+    try {
+      final spawnLayer = map.tileMap.getLayer<ObjectGroup>('Enemies');
+      if (spawnLayer == null) return;
 
-    for (final obj in spawnLayer.objects) {
-      final pos = Vector2(xOffset + obj.x, obj.y);
-      final enemy = switch (obj.name) {
-        'Wanderer' => Wanderer(position: pos),
-        'Wraith'   => Wraith(position: pos),
-        _          => Wanderer(position: pos),
-      };
-      gameRef.world.add(enemy);
-    }
+      for (final obj in spawnLayer.objects) {
+        final pos = Vector2(xOffset + obj.x, obj.y);
+        final enemy = switch (obj.name) {
+          'Wanderer' => Wanderer(position: pos),
+          'Wraith'   => Wraith(position: pos),
+          _          => Wanderer(position: pos),
+        };
+        gameRef.world.add(enemy);
+      }
+    } catch (_) {}
   }
 
   void _addPlaceholderRoom() {
-    // Flat floor platform when TMX files not yet present
     add(
       PositionComponent(
         position: Vector2(xOffset, 230),
@@ -193,8 +185,6 @@ class BossRoomChunk extends Component with HasGameRef {
 
   @override
   Future<void> onLoad() async {
-    // TODO: load boss room TMX + spawn appropriate boss component
-    // Chapter 1 → AshenWarden; Chapter 2 → VeilSeraph
     _addPlaceholderBossRoom();
   }
 

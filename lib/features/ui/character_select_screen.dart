@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/assets/asset_manifest.dart';
 import '../shop/iap_service.dart';
 import '../shop/shop_provider.dart';
 import '../audio/audio_manager.dart';
@@ -36,7 +37,7 @@ class _CharacterSelectScreenState
   }
 
   void _onPlay() {
-    AudioManager.instance.playSfx(Sfx.uiSelect);
+    AudioManager.instance.playSfx(SfxAssets.uiSelect);
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (_, __, ___) => const ChapterSelectScreen(),
@@ -60,7 +61,7 @@ class _CharacterSelectScreenState
           icon: const Icon(Icons.arrow_back_ios,
               color: Color(0xFF9A9AB0), size: 18),
           onPressed: () {
-            AudioManager.instance.playSfx(Sfx.uiBack);
+            AudioManager.instance.playSfx(SfxAssets.uiBack);
             Navigator.of(context).pop();
           },
         ),
@@ -94,7 +95,7 @@ class _CharacterSelectScreenState
                 itemCount: SkinDefinition.all.length,
                 onPageChanged: (i) {
                   setState(() => _currentPage = i);
-                  AudioManager.instance.playSfx(Sfx.uiSelect);
+                  AudioManager.instance.playSfx(SfxAssets.uiSelect);
                 },
                 itemBuilder: (context, i) {
                   final skin = SkinDefinition.all[i];

@@ -3,16 +3,12 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/level/level_component.dart';
+import '../../features/player/player_component.dart';
 import '../assets/asset_manager.dart';
 import '../utils/constants.dart';
 
 /// The main Flame game class for Veilborn.
-///
-/// Responsibilities:
-/// - Manages the game lifecycle (onLoad, update, render)
-/// - Preloads all assets via [AssetManager] before showing the world
-/// - Orchestrates world, player, enemies, and UI overlays
-/// - Handles game state transitions (menu → game → pause → game over)
 class VeilbornGame extends FlameGame with HasKeyboardHandlerComponents {
   VeilbornGame({this.chapter = 1})
       : super(
@@ -22,10 +18,7 @@ class VeilbornGame extends FlameGame with HasKeyboardHandlerComponents {
           ),
         );
 
-  /// Which chapter this session loads (1 or 2)
   final int chapter;
-
-  /// Loading progress, 0.0–1.0 — bound to a loading overlay if shown.
   double loadProgress = 0.0;
 
   @override
@@ -35,14 +28,11 @@ class VeilbornGame extends FlameGame with HasKeyboardHandlerComponents {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    // ── Asset preload ──────────────────────────────────────
-    // Show loading overlay while assets stream in. Safe no-op
-    // if individual files are still placeholders (Phase 9 .gitkeep).
     try {
       overlays.add('Loading');
-    } catch (_) {
-      // Overlay not registered (e.g. in unit tests) — continue silently
-    }
+    } catch (_) {}
+
+    debugPrint('[Game] Starting onLoad sequence…');
 
     await AssetManager.instance.preloadAll(
       onProgress: (pct) {
@@ -54,28 +44,32 @@ class VeilbornGame extends FlameGame with HasKeyboardHandlerComponents {
 
     try {
       overlays.remove('Loading');
-    } catch (_) {
-      // ignore if not present
-    }
+    } catch (_) {}
 
-    // TODO Phase 10: Add world and player once sprite art is in place
-    // world.add(LevelComponent(chapter: chapter, seed: DateTime.now().millisecondsSinceEpoch));
-    // world.add(PlayerComponent(position: Vector2(40, 200)));
+    debugPrint('[Game] Adding LevelComponent…');
+    await world.add(LevelComponent(
+      chapter: chapter, 
+      seed: DateTime.now().millisecondsSinceEpoch,
+    ));
+    
+    debugPrint('[Game] Adding PlayerComponent…');
+    await world.add(PlayerComponent(
+      position: Vector2(40, 200),
+    ));
 
-    // Show HUD (guarded for test environments)
     try {
       overlays.add('HudOverlay');
-    } catch (_) {
-      // Overlay not registered in test environment — safe to ignore
-    }
+    } catch (_) {}
 
-    debugMode = false; // Set to true during development to see hitboxes
+    debugPrint('[Game] onLoad sequence complete');
+    
+    // Set to true to see hitboxes and help debug the "black screen"
+    debugMode = true; 
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-    // Global update logic (sanity effects, camera shake, etc.) goes here
   }
 
   void pauseGame() {
